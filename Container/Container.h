@@ -18,7 +18,7 @@ public:
     Container(std::size_t size) : _size{size} {}
     virtual std::size_t size() const noexcept = 0;
     virtual bool isEmpty() const noexcept = 0;
-//    virtual auto push_back(T data) const -> void = 0;
+    virtual void push_back(T data) = 0;
 protected:
     std::size_t _size;
 };

@@ -10,11 +10,18 @@
 
 
 int main(int argc, const char * argv[]) {
-    //expcont::Vector<int> v{1,2,3,4,5};
-    expcont::Vector<std::string> vs(5, "hello");
+    expcont::Vector<int> v{1,2,3,4,5};
     for(int i = 0; i < 5; ++i) {
-        std::cout<<vs[i]<<"\t";
+        std::cout<<v[i]<<"\t";
     }
-    std::cout<<"\n"<<vs.size()<<"\n";
+    std::cout<<"\n"<<v.size()<<"\n";
+    v.push_back(6);
+    v.push_back(7);
+    v.push_back(8);
+    v.push_back(9);
+    
+    for(int i = 0; i < v.size(); ++i) {
+        std::cout<<v[i]<<"\t";
+    }
     return 0;
 }
