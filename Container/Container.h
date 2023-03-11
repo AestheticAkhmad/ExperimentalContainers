@@ -23,8 +23,6 @@ public:
     virtual T pop_back() = 0;
     virtual void push_front(T data) = 0;
     virtual T pop_front() = 0;
-    //TODO:
-    //virtual T& operator=(T& rhs) = 0;
     
 protected:
     std::size_t _size;

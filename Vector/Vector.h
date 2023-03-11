@@ -21,9 +21,7 @@ template<typename T>
 class Vector : public Container<T> {
 public:
     
-    explicit Vector() : Container<T>{}, _data{nullptr}, _end{} {
-        
-    }
+    explicit Vector() : Container<T>{}, _data{nullptr}, _end{} {}
     
     explicit Vector(std::size_t size) : Container<T>{size} {
         this->_data = std::make_unique<T[]>(Container<T>::_size);
@@ -169,6 +167,23 @@ public:
             
             return poppedElement;
         }
+    }
+    
+    Vector<T>& operator=(Vector<T>& rhs) {
+        Container<T>::_size = rhs.size();
+        std::unique_ptr<T[]> tempData{std::make_unique<T[]>(Container<T>::_size)};
+        
+        T* rawPtr{tempData.get()};
+        
+        for(std::size_t i = 0; i < Container<T>::_size; ++i) {
+            rawPtr[i] = rhs[i];
+        }
+        
+        this->_data.reset(rawPtr);
+        this->_end = Container<T>::_size;
+        tempData.release();
+        
+        return *this;
     }
     
 private:

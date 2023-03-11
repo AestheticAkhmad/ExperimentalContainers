@@ -13,10 +13,17 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     expcont::Vector<int> v{1,2,3,4,5};
+    expcont::Vector<int> g{5,7,8,9,10,11,12};
     
-    for(int i = 0; i < 5; ++i) {
-        v.pop_front();
-    }
+    for(int i = 0; i < g.size(); ++i) {
+        cout<<g[i]<<"\t";
+    } cout<<endl;
+    
+    g = v;
+    
+    for(int i = 0; i < g.size(); ++i) {
+        cout<<g[i]<<"\t";
+    } cout<<endl;
     
     cout<<v.size()<<endl;
     
