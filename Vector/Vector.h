@@ -151,6 +151,26 @@ public:
         }
     }
     
+    T pop_front() override {
+        if(this->is_empty()) {
+            throw std::out_of_range("Pop front on empty vector.");
+        } else {
+            T poppedElement = this->_data.get()[0];
+            std::unique_ptr<T[]> tempData{std::make_unique<T[]>(Container<T>::_size)};
+            
+            for(std::size_t i = 0; i < this->_end - 1; ++i) {
+                tempData[i] = this->_data[i + 1];
+            }
+            
+            this->_data.reset(tempData.get());
+            this->_end -= 1;
+            
+            tempData.release();
+            
+            return poppedElement;
+        }
+    }
+    
 private:
     std::unique_ptr<T[]> _data;
     std::size_t _end;
