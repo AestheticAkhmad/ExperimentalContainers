@@ -21,6 +21,10 @@ template<typename T>
 class Vector : public Container<T> {
 public:
     
+    explicit Vector() : Container<T>{}, _data{nullptr}, _end{} {
+        
+    }
+    
     explicit Vector(std::size_t size) : Container<T>{size} {
         this->_data = std::make_unique<T[]>(Container<T>::_size);
         this->_end = Container<T>::_size;
@@ -60,7 +64,7 @@ public:
         return this->_end;
     }
     
-    bool isEmpty() const noexcept override {
+    bool is_empty() const noexcept override {
         if(this->_end == 0) {
             return true;
         }
@@ -69,7 +73,16 @@ public:
     
     void push_back(T data) override {
         try {
-            if(_end + 1 >= Container<T>::_size) {
+            
+            if(this->is_empty()) {
+                Container<T>::_size = 1;
+                this->_data = std::make_unique<T[]>(Container<T>::_size);
+                this->_data.get()[0] = data;
+                this->_end += 1;
+                return;
+            }
+            
+            if(this->_end + 1 >= Container<T>::_size) {
                 Container<T>::_size *= 2;
                 std::unique_ptr<T[]> tempData{std::make_unique<T[]>(Container<T>::_size)};
                 
@@ -84,7 +97,7 @@ public:
                 tempData.release();
             } else {
                 T* rawPtr{this->_data.get()};
-                rawPtr[_end] = data;
+                rawPtr[this->_end] = data;
                 this->_end += 1;
             }
             
@@ -94,17 +107,49 @@ public:
     }
     
     T pop_back() override {
-        if(this->isEmpty() == true) {
+        if(this->is_empty() == true) {
             throw std::out_of_range("Pop back on empty vector.");
         } else {
             T poppedElement = this->_data[_end - 1];
-            this->_data[_end - 1] = 0;
+            this->_data[this->_end - 1] = 0;
             this->_end -= 1;
             return poppedElement;
         }
     }
     
-    
+    void push_front(T data) override {
+        try {
+            
+            if(this->is_empty()) {
+                Container<T>::_size = 1;
+                this->_data = std::make_unique<T[]>(Container<T>::_size);
+                this->_data.get()[0] = data;
+                this->_end += 1;
+                return;
+            }
+            
+            if(this->_end + 1 >= Container<T>::_size) {
+                Container<T>::_size *= 2 + 1;
+            }
+            
+            std::unique_ptr<T[]> tempData{std::make_unique<T[]>(Container<T>::_size)};
+            
+            for(std::size_t i = 1; i < this->_end; ++i) {
+                tempData[i] = this->_data[i - 1];
+            }
+            
+            tempData[this->_end] = this->_data[this->_end - 1];
+            
+            this->_data.reset(tempData.get());
+            this->_data.get()[0] = data;
+            this->_end += 1;
+            
+            tempData.release();
+            
+        } catch(...) {
+            return;
+        }
+    }
     
 private:
     std::unique_ptr<T[]> _data;
