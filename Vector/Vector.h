@@ -61,7 +61,7 @@ public:
     }
     
     bool isEmpty() const noexcept override {
-        if(Container<T>::_size == 0) {
+        if(this->_end == 0) {
             return true;
         }
         return false;
@@ -92,6 +92,19 @@ public:
             return;
         }
     }
+    
+    T pop_back() override {
+        if(this->isEmpty() == true) {
+            throw std::out_of_range("Pop back on empty vector.");
+        } else {
+            T poppedElement = this->_data[_end - 1];
+            this->_data[_end - 1] = 0;
+            this->_end -= 1;
+            return poppedElement;
+        }
+    }
+    
+    
     
 private:
     std::unique_ptr<T[]> _data;

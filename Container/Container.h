@@ -19,6 +19,10 @@ public:
     virtual std::size_t size() const noexcept = 0;
     virtual bool isEmpty() const noexcept = 0;
     virtual void push_back(T data) = 0;
+    virtual T pop_back() = 0;
+    //TODO:
+    //virtual void push_front(T data) = 0;
+    //virtual void pop_front() = 0;
 protected:
     std::size_t _size;
 };
