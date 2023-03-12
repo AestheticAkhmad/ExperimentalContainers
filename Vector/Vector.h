@@ -8,10 +8,7 @@
 #ifndef Vector_h
 #define Vector_h
 
-#include <initializer_list>
-#include <algorithm>
-#include <memory>
-#include <stdexcept>
+#include "../inc_headers.h"
 
 #include "../Container/Container.h"
 
