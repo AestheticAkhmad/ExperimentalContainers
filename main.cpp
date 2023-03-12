@@ -28,8 +28,9 @@ int main(int argc, const char * argv[]) {
 //
 //    cout<<v.size()<<endl;
     
-    expcont::ForwardList fl{1,2,3};
-    cout<<"hello"<<endl;
-
+    expcont::ForwardList<int> fl{1,2,3,4,5};
+    fl.pop_back();
+    cout<<fl.size()<<endl;
+    
     return 0;
 }
