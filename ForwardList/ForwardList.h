@@ -36,45 +36,52 @@ public:
         this->_tail = iterNode;
     }
     
-    std::size_t size() const noexcept {
+    std::size_t size() const noexcept override {
         return Container<T>::_size;
     }
     
-    bool is_empty() const noexcept {
+    bool is_empty() const noexcept override {
         if(Container<T>::_size == 0) {
             return true;
         }
         return false;
     }
     
-    void push_back(T data) {
+    void push_back(T data) override {
         try {
             
             if(this->_head == nullptr) {
                 Node* newNode{new Node(data)};
                 this->_head = newNode;
                 this->_tail = this->_head;
+                Container<T>::_size += 1;
                 return;
             }
             
             Node* newNode{new Node(data)};
             this->_tail->next = newNode;
             this->_tail = this->_tail->next;
+            
+            Container<T>::_size += 1;
 
         } catch(...) {
             return;
         }
     }
     
-    T pop_back() {
+    T pop_back() override {
         if(this->is_empty()) {
             throw std::out_of_range("Pop back on empty forward list.");
+            return {};
         }
         
-        if(this->_head->next == nullptr) {
+        if(Container<T>::_size == 1) {
+            T data{this->_head->data};
             delete this->_head;
             this->_head = nullptr;
             this->_tail = nullptr;
+            Container<T>::_size = 0;
+            return data;
         }
         
         Node* iterNode{this->_head};
@@ -83,21 +90,70 @@ public:
             iterNode = iterNode->next;
         }
         
+        T data{iterNode->next->data};
+        delete iterNode->next;
         this->_tail = iterNode;
-        delete this->_tail->next;
         this->_tail->next = nullptr;
         
-        delete iterNode;
         iterNode = nullptr;
         
         Container<T>::_size -= 1;
         
-        return {};
+        return data;
     }
     
-    void push_front(T data) {}
+    void push_front(T data) override {
+        try {
+            
+            if(this->is_empty()) {
+                this->_head = new Node{data};
+                this->_tail = this->_head;
+                return;
+            }
+            
+            Node* newNode{new Node{data}};
+            
+            newNode->next = this->_head;
+            
+            this->_head = newNode;
+            
+            Container<T>::_size += 1;
+            
+        } catch(...) {
+            return;
+        }
+    }
     
-    T pop_front() {return {};}
+    T pop_front() override {
+        if(this->is_empty()) {
+            throw std::out_of_range("Pop front on empty forward list.");
+            return {};
+        }
+        
+        if(Container<T>::_size == 1) {
+            T data{this->_head->data};
+            delete this->_head;
+            this->_head = nullptr;
+            this->_tail = nullptr;
+            Container<T>::_size = 0;
+            
+            return data;
+        }
+        
+        Node* nodeToDelete{this->_head};
+        
+        T data{nodeToDelete->data};
+        
+        this->_head = this->_head->next;
+        
+        delete nodeToDelete;
+        nodeToDelete = nullptr;
+        
+        Container<T>::_size -= 1;
+        
+        return data;
+        
+    }
     
     
     
