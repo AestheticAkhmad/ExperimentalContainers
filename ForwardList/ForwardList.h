@@ -108,6 +108,7 @@ public:
             if(this->is_empty()) {
                 this->_head = new Node{data};
                 this->_tail = this->_head;
+                Container<T>::_size += 1;
                 return;
             }
             
@@ -155,6 +156,43 @@ public:
         
     }
     
+    T remove(T data) {
+        if(this->is_empty()) {
+            throw std::out_of_range("Removing from empty forward list.");
+            return false;
+        }
+        
+        if(Container<T>::_size == 1) {
+            if(this->_head->data == data) {
+                delete this->_head;
+                this->_head = nullptr;
+                Container<T>::_size -= 1;
+                return true;
+            }
+            return false;
+        }
+        
+        Node* iterNode{this->_head};
+        if(iterNode->data == data) {
+            this->_head = this->_head->next;
+            delete iterNode;
+            iterNode = nullptr;
+            Container<T>::_size -= 1;
+            return true;
+        }
+        
+        while(iterNode->next != nullptr && iterNode->next->data != data) {
+            iterNode = iterNode->next;
+        }
+        
+        Node* nextNode{iterNode->next->next};
+        delete iterNode->next;
+        iterNode->next = nextNode;
+        
+        Container<T>::_size -= 1;
+        
+        return true;
+    }
     
     
 private:
@@ -163,10 +201,6 @@ private:
         Node* next;
         
         Node(T data) : data{data}, next{nullptr} {}
-    protected:
-        const Node* GetNext() const {
-            return next;
-        }
     };
     
     Node* _head;

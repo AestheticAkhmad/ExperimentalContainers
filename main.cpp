@@ -15,31 +15,19 @@ using namespace std;
 int main(int argc, const char * argv[]) {
 
     
-    expcont::ForwardList<int> fl{1,2,3,4,5};;
-    cout<<fl.pop_back()<<endl;
-    cout<<fl.pop_back()<<endl;
-    cout<<fl.pop_back()<<endl;
-    cout<<fl.pop_back()<<endl;
-    cout<<fl.pop_back()<<endl;
-    fl.push_back(10);
-    fl.push_back(10);
-    fl.push_back(10);
-    fl.push_back(10);
-    fl.push_back(10);
-    fl.push_back(10);
-    fl.push_back(10);
-    cout<<fl.pop_front()<<endl;
-    cout<<fl.pop_front()<<endl;
-    cout<<fl.pop_front()<<endl;
-    cout<<fl.pop_front()<<endl;
-    cout<<fl.pop_front()<<endl;
-    cout<<fl.pop_front()<<endl;
-    cout<<fl.pop_front()<<endl;
+    expcont::ForwardList<int> fl{};
+    
+    for(int i = 0; i < 10; ++i) {
+        fl.push_front(10);
+    }
     
     cout<<fl.size()<<endl;
     
+    for(int i = 0; i < 10; ++i) {
+        fl.remove(10);
+    }
     
-    
+    cout<<fl.size()<<endl;
     
     return 0;
 }
