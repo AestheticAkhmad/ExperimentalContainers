@@ -156,7 +156,7 @@ public:
         
     }
     
-    T remove(T data) {
+    bool remove(T data) {
         if(this->is_empty()) {
             throw std::out_of_range("Removing from empty forward list.");
             return false;
